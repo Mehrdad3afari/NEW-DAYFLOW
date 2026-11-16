@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f7f8fc">
+  <title>ریتم — برنامه هفتگی من</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#"><span class="brand-mark">ر</span><span>ریتم<small>مدیریت برنامه شخصی</small></span></a>
+      <div class="side-label">فضای من</div>
+      <button class="nav-item active"><span>▦</span> برنامه هفتگی</button>
+      <button class="nav-item" id="todayNav"><span>◷</span> برنامه امروز</button>
+      <div class="side-note"><span class="note-icon">✦</span><strong>قدم‌های کوچک، مداوم</strong><p>برنامه‌ات را با واقعیت زندگی هماهنگ کن؛ هر زمان خواستی تغییرش بده.</p></div>
+      <div class="sidebar-bottom"><span class="avatar">م</span><span>برنامه شخصی</span><span class="local-tag">ذخیره روی دستگاه</span></div>
+    </aside>
+    <main class="main-content">
+      <header class="topbar"><div class="breadcrumbs">فضای من <span>/</span> برنامه هفتگی</div><button class="today-button" id="todayButton">رفتن به امروز <span>↙</span></button></header>
+      <section class="welcome"><div><div class="eyebrow"><span class="live-dot"></span> برنامه‌ریزی منعطف</div><h1>هفته‌ات را <em>با ریتم خودت</em> پیش ببر.</h1><p>کلاس‌ها، کار و زمان خودت را در یک نگاه مدیریت کن.</p></div><div class="week-count"><strong id="eventCount">۰</strong><span>فعالیت ثبت‌شده<br>در این هفته</span></div></section>
+      <section class="summary-strip"><div class="summary-item"><span class="summary-icon indigo">▤</span><div><strong id="classCount">۰</strong><small>کلاس دانشگاه</small></div></div><div class="summary-item"><span class="summary-icon orange">◷</span><div><strong id="workCount">۰</strong><small>شیفت کاری</small></div></div><div class="summary-item"><span class="summary-icon green">⌁</span><div><strong id="freeCount">۰</strong><small>روز بدون کلاس</small></div></div><div class="summary-tip"><span>✦</span> تداخل‌ها را با نشان قرمز روی برنامه می‌بینی.</div></section>
+      <section class="daily-card" aria-labelledby="dailyTitle">
+        <div class="daily-top"><div><div class="eyebrow">قدم به قدم</div><h2 id="dailyTitle">ریزفعالیت‌های <span id="selectedDayName">شنبه</span></h2><p>هر کار کوچکی را ثبت کن و با انجامش تیک بزن.</p></div><div class="progress-count"><strong id="progressText">۰٪</strong><span id="taskCountText">۰ از ۰ کار</span></div></div>
+        <div class="progress-track" role="progressbar" aria-label="پیشرفت کارهای روز" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="day-picker" id="dayPicker" aria-label="انتخاب روز"></div>
+        <form class="task-entry" id="taskForm"><input id="taskInput" maxlength="100" required placeholder="یک کار کوچک اضافه کن؛ مثلاً آماده‌کردن کیف دانشگاه" aria-label="عنوان کار"><input id="taskTimeInput" type="time" aria-label="ساعت اختیاری"><button type="submit" class="add-task-button"><span>＋</span> افزودن</button></form>
+        <div class="task-list" id="taskList"></div>
+        <div class="daily-empty" id="dailyEmpty">هنوز کاری برای این روز ثبت نکردی؛ از یک قدم کوچک شروع کن.</div>
+      </section>
+      <section class="planner-card">
+        <div class="planner-heading"><div><h2>برنامه هفتگی</h2><p>برنامه‌ی کامل ۲۴ ساعته براساس زمان‌بندی‌ای که فرستادی</p></div><div class="planner-actions"><div class="legend"><span><i class="legend-class"></i> دانشگاه</span><span><i class="legend-work"></i> کار</span><span><i class="legend-personal"></i> شخصی</span></div><button class="add-button" id="addButton"><span>＋</span> فعالیت جدید</button></div></div>
+        <div class="mobile-day-switch" id="mobileDaySwitch" aria-label="انتخاب روز برنامه"></div>
+        <div class="mobile-agenda" id="mobileAgenda"></div>
+        <div class="week-grid" id="weekGrid"></div>
+        <div class="planner-footer"><span class="footer-icon">ⓘ</span> اطلاعات این نسخه فقط در همین مرورگر ذخیره می‌شود.</div>
+      </section>
+    </main>
+  </div>
+  <dialog id="eventDialog"><form method="dialog" id="eventForm"><div class="dialog-top"><div><div class="eyebrow">مدیریت فعالیت</div><h2 id="dialogTitle">فعالیت جدید</h2></div><button class="close-button" value="cancel" aria-label="بستن">×</button></div><input type="hidden" id="eventId"><label>عنوان فعالیت<input id="titleInput" maxlength="60" required placeholder="مثلاً مطالعه یا تمرین"></label><div class="form-row"><label>روز<select id="dayInput"></select></label><label>دسته<select id="typeInput"><option value="class">دانشگاه</option><option value="work">کار</option><option value="personal">شخصی</option></select></label></div><div class="form-row"><label>شروع<input id="startInput" type="time" required></label><label>پایان<input id="endInput" type="time" required></label></div><div class="dialog-actions"><button type="button" class="delete-button" id="deleteButton">حذف فعالیت</button><span></span><button value="cancel" class="cancel-button">انصراف</button><button id="saveButton" value="default" class="save-button">ذخیره</button></div></form></dialog>
+  <div class="toast" id="toast" role="status"></div>
+</body>
+</html>
+
